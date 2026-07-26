@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mañana será un gran día ❤️</title>
+    <!-- Fuente Poppins de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           VARIABLES Y DISEÑO BASE
+           ========================================================================== */
+        :root {
+            --primary: #ff7597;
+            --primary-hover: #ff4f7a;
+            --secondary: #9c27b0;
+            --accent: #ffeb3b;
+            --text-color: #4a3b52;
+            --text-muted: #6e5e78;
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(255, 117, 151, 0.15);
+            --font-poppins: 'Poppins', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-poppins);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            background: linear-gradient(-45deg, #ffd3e8, #e0c3fc, #b9fbc0, #8ec5fc);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+        }
+
+        /* Animación suave para el fondo degradado */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ==========================================================================
+           PANTALLA DE BIENVENIDA (INTRO)
+           ========================================================================== */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffe3ec 0%, #f3e5f5 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #welcome-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        .welcome-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 40px 30px;
+            border-radius: 28px;
+            box-shadow: 0 15px 45px rgba(255, 117, 151, 0.2);
+            max-width: 500px;
+            width: 100%;
+            animation: welcomeZoom 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes welcomeZoom {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .welcome-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: pulseHeart 1.5s infinite;
+        }
+
+        @keyframes pulseHeart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4a154b;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* Botones Estilizados */
+        .btn-beauty {
+            font-family: var(--font-poppins);
+            background: linear-gradient(135deg, var(--primary) 0%, #ff4b72 100%);
+            border: none;
+            color: white;
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 117, 151, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            outline: none;
+        }
+
+        .btn-beauty:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 12px 25px rgba(255, 117, 151, 0.6);
+        }
+
+        .btn-beauty:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        /* ==========================================================================
+           REPRODUCTOR MÚSICA FLOTANTE Y NAVEGACIÓN
+           ========================================================================== */
+        .music-widget {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 999;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 8px 16px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .music-widget:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .music-icon {
+            font-size: 1.1rem;
+            animation: rotateNote 3s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .music-widget.playing .music-icon {
+            animation-play-state: running;
+        }
+
+        @keyframes rotateNote {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .music-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        /* ==========================================================================
+           CONTENEDOR DE ELEMENTOS FLOTANTES
+           ========================================================================== */
+        #particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .floating-item {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp 8s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(110vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.6;
+            }
+            85% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* ==========================================================================
+           DISEÑO DE PÁGINA / LANDING
+           ========================================================================== */
+        .wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px 120px 20px;
+            position: relative;
+            z-index: 20;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4a154b;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .main-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* ==========================================================================
+           SECCIONES / TARJETAS (GLASSMORPHISM & 3D HOVER)
+           ========================================================================== */
+        .section-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 40px;
+            margin-bottom: 80px;
+            box-shadow: var(--glass-shadow);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .section-card.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card-inner {
+            transition: transform 0.1s ease;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon-container {
+            width: 55px;
+            height: 55px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(255, 117, 151, 0.2);
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #3b123d;
+        }
+
+        .card-content {
+            font-size: 1.05rem;
+            color: var(--text-color);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .card-content p {
+            margin-bottom: 15px;
+        }
+
+        .card-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ==========================================================================
+           FRASES INTERCALADAS
+           ========================================================================== */
+        .divider-phrase {
+            text-align: center;
+            font-size: 1.6rem;
+            font-style: italic;
+            font-weight: 600;
+            color: #6a1b9a;
+            margin: 100px 0;
+            padding: 20px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s ease;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .divider-phrase.reveal {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .divider-phrase::before, .divider-phrase::after {
+            content: "✨";
+            display: inline-block;
+            margin: 0 15px;
+            font-size: 1.2rem;
+            vertical-align: middle;
+            animation: pulseHeart 2s infinite;
+        }
+
+        /* ==========================================================================
+           DETALLES ILUSTRATIVOS CSS & SVG
+           ========================================================================== */
+        .decorations {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .svg-decor {
+            position: absolute;
+            opacity: 0.25;
+            transition: transform 0.5s ease-out;
+        }
+
+        /* Posicionamiento de ilustraciones */
+        .svg-decor-1 { top: 15%; left: -5%; width: 120px; animation: bounce 6s ease-in-out infinite; }
+        .svg-decor-2 { top: 35%; right: -5%; width: 100px; animation: bounce 8s ease-in-out infinite alternate; }
+        .svg-decor-3 { top: 55%; left: -6%; width: 110px; animation: floatCloud 12s linear infinite; }
+        .svg-decor-4 { top: 75%; right: -6%; width: 130px; animation: bounce 7s ease-in-out infinite; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        @keyframes floatCloud {
+            0% { transform: translateX(-20px); }
+            50% { transform: translateX(20px); }
+            100% { transform: translateX(-20px); }
+        }
+
+        /* ==========================================================================
+           CARTA FINAL EMOTIVA (SOBRE INTERACTIVO)
+           ========================================================================== */
+        .letter-container {
+            margin-top: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .letter-container.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sobre del Mensaje */
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+            height: 380px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 235, 240, 0.7) 100%);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 28px;
+            box-shadow: 0 15px 45px rgba(255, 117, 151, 0.2);
+            border: 2px dashed rgba(255, 117, 151, 0.5);
+            cursor: pointer;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .envelope-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 26px;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, var(--primary), var(--secondary)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(255, 117, 151, 0.4);
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 225, 235, 0.8) 100%);
+        }
+
+        .envelope-wrapper:hover::after {
+            opacity: 1;
+        }
+
+        .envelope-visual {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .envelope-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 5px 10px rgba(255, 117, 151, 0.3));
+            animation: pulseHeart 1.5s infinite;
+        }
+
+        .envelope-title {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #4a154b;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .envelope-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-color);
+            margin-bottom: 25px;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+
+        .envelope-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, #ff4b72 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(255, 117, 151, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulseButton 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes pulseButton {
+            0% { transform: scale(1); box-shadow: 0 5px 15px rgba(255, 117, 151, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(255, 117, 151, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 5px 15px rgba(255, 117, 151, 0.4); }
+        }
+
+        /* Hoja de Carta Real que aparece */
+        .letter-paper {
+            display: none;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 45px 35px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            position: relative;
+            transition: all 0.5s ease;
+            background-image: radial-gradient(#f1e6f5 10%, transparent 11%), radial-gradient(#f1e6f5 10%, transparent 11%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        .letter-paper::before {
+            content: "";
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 117, 151, 0.15);
+        }
+
+        .typewriter-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #3b2a47;
+            font-weight: 400;
+            white-space: pre-wrap;
+            min-height: 200px;
+        }
+
+        .typewriter-text p {
+            margin-bottom: 20px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background-color: var(--primary);
+            margin-left: 2px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Firma final y Botón de Reinicio */
+        .letter-footer {
+            margin-top: 40px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease 0.5s;
+            display: none;
+        }
+
+        .letter-footer.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sign-love {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            animation: pulseHeart 1.5s infinite;
+        }
+
+        .sign-sub {
+            font-size: 0.95rem;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* Lluvia final de confeti y corazones */
+        .rain-emitter {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ==========================================================================
+           RESPONSIVIDAD Y ADAPTABILIDAD
+           ========================================================================== */
+        @media (max-width: 600px) {
+            .wrapper {
+                padding: 60px 15px 80px 15px;
+            }
+
+            .main-title {
+                font-size: 2.1rem;
+            }
+
+            .main-subtitle {
+                font-size: 0.95rem;
+            }
+
+            .section-card {
+                padding: 25px 20px;
+                margin-bottom: 50px;
+            }
+
+            .card-title {
+                font-size: 1.25rem;
+            }
+
+            .card-icon-container {
+                width: 45px;
+                height: 45px;
+            }
+
+            .card-icon {
+                font-size: 1.4rem;
+            }
+
+            .divider-phrase {
+                font-size: 1.25rem;
+                margin: 60px 0;
+            }
+
+            .letter-paper {
+                padding: 30px 20px;
+            }
+
+            .typewriter-text {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- REPRODUCTOR DE MÚSICA FLOTANTE -->
+    <div class="music-widget" id="music-toggle">
+        <span class="music-icon">🎵</span>
+        <span class="music-text" id="music-status">Reproducir música</span>
+    </div>
+
+    <!-- AUDIO LOCAL -->
+    <audio id="bg-audio" src="ssstik.io__ervinvlover_1785035965912.mp3" loop></audio>
+
+    <!-- PANTALLA DE BIENVENIDA -->
+    <div id="welcome-screen">
+        <div class="welcome-content">
+            <span class="welcome-icon">❤️</span>
+            <h1 class="welcome-title">Mañana será un gran día</h1>
+            <p class="welcome-subtitle">He preparado una sorpresa muy especial para ti. Prepárate para leer con el corazón.</p>
+            <button class="btn-beauty" id="btn-start">
+                Presiona aquí ✨
+            </button>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR DE EFECTOS FLOTANTES DE FONDO -->
+    <div id="particles-container"></div>
+
+    <!-- CONTENEDOR PRINCIPAL DE CONTENIDO -->
+    <div class="wrapper">
+        
+        <!-- ELEMENTOS DECORATIVOS SVG DE FONDO -->
+        <div class="decorations">
+            <!-- Flor 1 -->
+            <svg class="svg-decor svg-decor-1" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="15" fill="#ffccd5"/>
+                <circle cx="50" cy="20" r="15" fill="#ffb3c1"/>
+                <circle cx="80" cy="50" r="15" fill="#ffb3c1"/>
+                <circle cx="50" cy="80" r="15" fill="#ffb3c1"/>
+                <circle cx="20" cy="50" r="15" fill="#ffb3c1"/>
+                <circle cx="50" cy="50" r="8" fill="#ffd166"/>
+            </svg>
+            <!-- Mariposa -->
+            <svg class="svg-decor svg-decor-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 40 C30 10 10 30 45 50 C10 70 30 90 50 60 C70 90 90 70 55 50 C90 30 70 10 50 40 Z" fill="#e0c3fc" stroke="#b39ddb" stroke-width="2"/>
+                <line x1="50" y1="40" x2="45" y2="25" stroke="#b39ddb" stroke-width="2"/>
+                <line x1="50" y1="40" x2="55" y2="25" stroke="#b39ddb" stroke-width="2"/>
+            </svg>
+            <!-- Nube -->
+            <svg class="svg-decor svg-decor-3" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 60 A20 20 0 0 1 50 40 A25 25 0 0 1 85 55 A20 20 0 0 1 80 80 L20 80 A15 15 0 0 1 20 60 Z" fill="#ffffff" opacity="0.6"/>
+            </svg>
+            <!-- Flor 2 -->
+            <svg class="svg-decor svg-decor-4" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="15" fill="#e8dbfc"/>
+                <circle cx="50" cy="20" r="15" fill="#d6c2f9"/>
+                <circle cx="80" cy="50" r="15" fill="#d6c2f9"/>
+                <circle cx="50" cy="80" r="15" fill="#d6c2f9"/>
+                <circle cx="20" cy="50" r="15" fill="#d6c2f9"/>
+                <circle cx="50" cy="50" r="8" fill="#ffd166"/>
+            </svg>
+        </div>
+
+        <!-- CABECERA -->
+        <header id="main-header">
+            <h1 class="main-title">Para ti, con todo mi cariño ❤️</h1>
+            <p class="main-subtitle">Mañana presentas un examen muy importante en tu vida, pero antes de que llegue, quiero que leas esto muy despacio...</p>
+        </header>
+
+        <!-- SECCIÓN 1: INTRODUCCIÓN -->
+        <div class="section-card">
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="card-icon-container">
+                        <span class="card-icon">❤️</span>
+                    </div>
+                    <h2 class="card-title">Una pequeña introducción</h2>
+                </div>
+                <div class="card-content">
+                    <p>Parece que fue ayer cuando hablábamos de las tareas interminables, los madrugones y las risas en el colegio. Has recorrido un camino lleno de esfuerzo, aprendizaje y dedicación.</p>
+                    <p>Hoy estás a las puertas de dar un paso importante, pero quiero recordarte que este viaje ha valido completamente la pena por lo mucho que has crecido como persona.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FRASE 1 -->
+        <div class="divider-phrase">
+            Nunca dudes de lo capaz que eres.
+        </div>
+
+        <!-- SECCIÓN 2: TU FUERZA -->
+        <div class="section-card">
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="card-icon-container">
+                        <span class="card-icon">🌸</span>
+                    </div>
+                    <h2 class="card-title">Lo fuerte que eres</h2>
+                </div>
+                <div class="card-content">
+                    <p>A veces, el cansancio o la duda intentan hacernos creer que no somos suficientes. Pero tú tienes una fuerza increíble que te ha traído hasta aquí. Has superado noches largas de estudio, momentos de duda y tareas complejas.</p>
+                    <p>Esa tenacidad es tu mejor recurso. Eres más valiente de lo que crees y más fuerte de lo que te imaginas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FRASE 2 -->
+        <div class="divider-phrase">
+            Ya ganaste desde el momento en que nunca te rendiste.
+        </div>
+
+        <!-- SECCIÓN 3: DETALLES ÚNICOS -->
+        <div class="section-card">
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="card-icon-container">
+                        <span class="card-icon">✨</span>
+                    </div>
+                    <h2 class="card-title">Cosas hermosas sobre ti</h2>
+                </div>
+                <div class="card-content">
+                    <p>Tu luz brilla no solo cuando estudias, sino en cada pequeño gesto. Tu inteligencia, tu carisma y tu forma de ver el mundo hacen que todos los que te rodeamos estemos increíblemente orgullosos de tenerte en nuestras vidas.</p>
+                    <p>Tienes un potencial gigante y la capacidad de lograr cualquier meta que te propongas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FRASE 3 -->
+        <div class="divider-phrase">
+            Dios siempre camina contigo.
+        </div>
+
+        <!-- SECCIÓN 4: CONFIANZA EN DIOS -->
+        <div class="section-card">
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="card-icon-container">
+                        <span class="card-icon">🙏</span>
+                    </div>
+                    <h2 class="card-title">El poder de la fe</h2>
+                </div>
+                <div class="card-content">
+                    <p>Mañana no estarás sola en ese salón. Pon todos tus conocimientos y tus ansiedades en las manos de Dios. Él te dará la sabiduría para recordar lo aprendido, la serenidad en los momentos difíciles y la paz que necesitas para estar tranquila.</p>
+                    <p>Confía plenamente en Su guía, porque Él tiene un propósito maravilloso y hermoso preparado especialmente para ti.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FRASE 4 -->
+        <div class="divider-phrase">
+            Respira. Sonríe. Confía.
+        </div>
+
+        <!-- SECCIÓN 5: UN EXAMEN NO TE DEFINE -->
+        <div class="section-card">
+            <div class="card-inner">
+                <div class="card-header">
+                    <div class="card-icon-container">
+                        <span class="card-icon">🌈</span>
+                    </div>
+                    <h2 class="card-title">Un número no define tu valor</h2>
+                </div>
+                <div class="card-content">
+                    <p>Las pruebas Saber 11 son una evaluación académica más. No miden tu bondad, tu alegría, tu empatía ni tu capacidad de hacer del mundo un lugar mejor. Tu valor es infinito y no depende del resultado en una hoja de papel.</p>
+                    <p>Ve mañana a dar lo mejor de ti con tranquilidad, sabiendo que el éxito ya es tuyo por todo el camino recorrido.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARTA FINAL INTERACTIVA -->
+        <div class="letter-container" id="letter-section">
+            <!-- Sobre cerrado -->
+            <div class="envelope-wrapper" id="envelope">
+                <div class="envelope-visual">
+                    <span class="envelope-icon">💌</span>
+                    <h3 class="envelope-title">Tienes una carta especial</h3>
+                    <p class="envelope-subtitle">He escrito un mensaje muy especial para ti. Haz clic en cualquier parte de este sobre o presiona el botón de abajo para abrirlo.</p>
+                    <button class="envelope-btn">Abrir Carta 💖</button>
+                </div>
+            </div>
+
+            <!-- Papel de carta (inicialmente oculto) -->
+            <div class="letter-paper" id="letter-paper">
+                <div class="typewriter-text" id="typed-content"></div>
+                
+                <div class="letter-footer" id="letter-footer">
+                    <div class="sign-love">Te amo ❤️</div>
+                    <div class="sign-sub">Ahora ve y demuestra todo lo que eres capaz de hacer.</div>
+                    <button class="btn-beauty" id="btn-restart">Leer otra vez 🔄</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- EMISOR DE EFECTOS FINALES -->
+    <div class="rain-emitter" id="rain-emitter"></div>
+
+    <!-- SCRIPTS -->
+    <script>
+        /* ==========================================================================
+           ELEMENTOS DOM Y ESTADO
+           ========================================================================== */
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const btnStart = document.getElementById('btn-start');
+        const mainHeader = document.getElementById('main-header');
+        
+        // Elementos de música
+        const musicToggle = document.getElementById('music-toggle');
+        const bgAudio = document.getElementById('bg-audio');
+        const musicStatus = document.getElementById('music-status');
+        const musicIcon = document.querySelector('.music-icon');
+        
+        // Elementos de la Carta
+        const envelope = document.getElementById('envelope');
+        const letterPaper = document.getElementById('letter-paper');
+        const typedContent = document.getElementById('typed-content');
+        const letterFooter = document.getElementById('letter-footer');
+        const btnRestart = document.getElementById('btn-restart');
+        
+        // Contenedores de partículas y efectos
+        const particlesContainer = document.getElementById('particles-container');
+        const rainEmitter = document.getElementById('rain-emitter');
+
+        // Texto de la carta para el efecto de máquina de escribir
+        const letterText = `Bueno, linda, llegó el día. Mañana presentas las pruebas y, de verdad, sé en mi corazón que te va a ir súper bien. No te dejes asustar por este examen; al final del día es solo eso, una prueba en una hoja de papel, pero tú ya has ganado muchísimo más en la vida.
+
+No te agobies pensando en que tienes que sacar un puntaje perfecto o cumplir con las expectativas de otros. Ve tranquila, respira profundo y ten en mente que esto no define quién eres ni el futuro brillante que te espera. Dios confía plenamente en ti, y de la misma manera lo hago yo, tu mamita, tus amigos y todos los que te conocemos y sabemos de lo que eres capaz.
+
+Simplemente hazlo por ti, negra. No lo hagas porque alguien te exija un número alto; hazlo para demostrarte a ti misma que todo el esfuerzo, las trasnochadas, las tareas y cada paso que diste en el colegio valieron la pena. Disfruta tu día, vive la experiencia con calma. Si yo ya me siento infinitamente orgulloso de ti, ten por seguro que toda tu familia también lo está.
+
+Recuerda siempre, mi linda, que es solo un examen. Dios te bendiga hoy, mañana y siempre.`;
+
+        let isTyping = false;
+        let typingTimeout = null;
+
+        /* ==========================================================================
+           PARTÍCULAS Y FLORES FLOTANTES
+           ========================================================================== */
+        const emojiPool = ['❤️', '🌸', '✨', '🎈', '☁️', '🦋', '💖'];
+        
+        function createFloatingElement() {
+            if (document.hidden) return; // No generar si la pestaña no está activa
+            const floating = document.createElement('div');
+            floating.className = 'floating-item';
+            floating.innerText = emojiPool[Math.floor(Math.random() * emojiPool.length)];
+            
+            // Posición y tamaño aleatorio
+            floating.style.left = Math.random() * 100 + 'vw';
+            floating.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+            
+            // Duración y retraso aleatorio de la animación
+            const duration = Math.random() * 6 + 6; // Entre 6 y 12 segundos
+            floating.style.animationDuration = duration + 's';
+            
+            particlesContainer.appendChild(floating);
+            
+            // Eliminar elemento después de que termine la animación
+            setTimeout(() => {
+                floating.remove();
+            }, duration * 1000);
+        }
+
+        // Generar elementos flotantes de fondo periódicamente
+        setInterval(createFloatingElement, 1500);
+
+        /* ==========================================================================
+           CONTROLADOR DE MÚSICA
+           ========================================================================== */
+        function toggleMusic() {
+            if (bgAudio.paused) {
+                bgAudio.play().then(() => {
+                    musicStatus.innerText = 'Pausar música';
+                    musicToggle.classList.add('playing');
+                }).catch(err => console.log("Error al iniciar audio:", err));
+            } else {
+                bgAudio.pause();
+                musicStatus.innerText = 'Reproducir música';
+                musicToggle.classList.remove('playing');
+            }
+        }
+
+        musicToggle.addEventListener('click', toggleMusic);
+
+        /* ==========================================================================
+           EVENTO DE INICIO
+           ========================================================================== */
+        btnStart.addEventListener('click', () => {
+            // Desvanecer pantalla de bienvenida
+            welcomeScreen.classList.add('fade-out');
+            
+            // Intentar reproducir música automáticamente
+            bgAudio.play().then(() => {
+                musicStatus.innerText = 'Pausar música';
+                musicToggle.classList.add('playing');
+            }).catch(err => {
+                console.log("Audio autoreplay bloqueado por navegador.");
+            });
+
+            // Mostrar el header principal con retraso sutil
+            setTimeout(() => {
+                mainHeader.classList.add('visible');
+            }, 600);
+            
+            // Iniciar IntersectionObserver para las tarjetas
+            startRevealObserver();
+        });
+
+        /* ==========================================================================
+           SCROLL REVEAL (INTERSECTION OBSERVER)
+           ========================================================================== */
+        function startRevealObserver() {
+            const cards = document.querySelectorAll('.section-card, .divider-phrase, .letter-container');
+            
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('reveal');
+                        observer.unobserve(entry.target); // Solo revelar una vez
+                    }
+                });
+            }, observerOptions);
+
+            cards.forEach(card => {
+                revealObserver.observe(card);
+            });
+        }
+
+        /* ==========================================================================
+           EFECTO 3D EN LAS TARJETAS (CARD TILT)
+           ========================================================================== */
+        const cards = document.querySelectorAll('.section-card');
+        
+        cards.forEach(card => {
+            const inner = card.querySelector('.card-inner');
+            
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Limitar rotación a ±8 grados para mantener sutileza
+                const rotateX = ((centerY - y) / centerY) * 8;
+                const rotateY = ((x - centerX) / centerX) * 8;
+                
+                inner.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                inner.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+            });
+        });
+
+        /* ==========================================================================
+           Efecto Parallax Suave al Scroll en Decoraciones
+           ========================================================================== */
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const decors = document.querySelectorAll('.svg-decor');
+            decors.forEach((decor, idx) => {
+                const speed = (idx + 1) * 0.15;
+                decor.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        /* ==========================================================================
+           MÁQUINA DE ESCRIBIR (TYPEWRITER)
+           ========================================================================== */
+        function typeWriter(text, i, fnCallback) {
+            if (i < text.length) {
+                typedContent.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
+                
+                // Velocidad variable para simular escritura humana
+                let char = text.charAt(i);
+                let delay = 35; // Velocidad base
+                
+                if (char === '.' || char === ',' || char === ';') {
+                    delay = 350; // Pausa en puntuaciones
+                } else if (char === '\n') {
+                    delay = 550; // Pausa en párrafos
+                }
+                
+                typingTimeout = setTimeout(() => {
+                    typeWriter(text, i + 1, fnCallback);
+                }, delay);
+            } else if (typeof fnCallback == 'function') {
+                // Eliminar el cursor final
+                const cursor = typedContent.querySelector('.cursor');
+                if (cursor) cursor.remove();
+                fnCallback();
+            }
+        }
+
+        /* ==========================================================================
+           LLUVIA DE CORAZONES Y CONFETI (FINAL)
+           ========================================================================== */
+        function triggerLoveRain() {
+            const finalEmojis = ['❤️', '💖', '✨', '🌸', '💝', '🎉'];
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const rain = document.createElement('div');
+                    rain.innerText = finalEmojis[Math.floor(Math.random() * finalEmojis.length)];
+                    rain.style.position = 'absolute';
+                    rain.style.pointerEvents = 'none';
+                    rain.style.left = Math.random() * 100 + 'vw';
+                    rain.style.top = '-20px';
+                    rain.style.fontSize = (Math.random() * 1.8 + 0.8) + 'rem';
+                    
+                    // Velocidades variadas
+                    const duration = Math.random() * 4 + 3; // De 3 a 7 segundos
+                    rain.style.transition = `transform ${duration}s linear, opacity ${duration}s ease-in-out`;
+                    
+                    rainEmitter.appendChild(rain);
+                    
+                    // Forzar reflow y animar
+                    requestAnimationFrame(() => {
+                        rain.style.transform = `translateY(105vh) rotate(${Math.random() * 720 - 360}deg)`;
+                        rain.style.opacity = '0';
+                    });
+                    
+                    setTimeout(() => {
+                        rain.remove();
+                    }, duration * 1000);
+                }, i * 70);
+            }
+        }
+
+        /* ==========================================================================
+           APERTURA DE CARTA E INTERACCIÓN
+           ========================================================================== */
+        envelope.addEventListener('click', () => {
+            if (isTyping) return;
+            isTyping = true;
+
+            // Transición suave: ocultar el sobre
+            envelope.style.opacity = '0';
+            setTimeout(() => {
+                envelope.style.display = 'none';
+                
+                // Mostrar el papel de carta
+                letterPaper.style.display = 'block';
+                letterPaper.style.opacity = '0';
+                
+                requestAnimationFrame(() => {
+                    letterPaper.style.opacity = '1';
+                    letterPaper.style.transform = 'translateY(0)';
+                    
+                    // Iniciar la máquina de escribir
+                    typeWriter(letterText, 0, () => {
+                        // Al terminar la escritura, mostrar la firma y lanzar lluvia
+                        letterFooter.classList.add('visible');
+                        triggerLoveRain();
+                        isTyping = false;
+                    });
+                });
+            }, 500);
+        });
+
+        /* ==========================================================================
+           BOTÓN REINICIAR (LEER OTRA VEZ)
+           ========================================================================== */
+        btnRestart.addEventListener('click', () => {
+            if (isTyping) return;
+            
+            // Cancelar cualquier timeout activo
+            clearTimeout(typingTimeout);
+            
+            // Ocultar footer de carta
+            letterFooter.classList.remove('visible');
+            typedContent.innerHTML = '';
+            
+            // Ocultar papel y volver a mostrar el sobre
+            letterPaper.style.opacity = '0';
+            setTimeout(() => {
+                letterPaper.style.display = 'none';
+                
+                envelope.style.display = 'flex';
+                envelope.style.opacity = '0';
+                
+                requestAnimationFrame(() => {
+                    envelope.style.opacity = '1';
+                    envelope.style.transform = 'translateY(0)';
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
